@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Directory Users</title>
+  </head>
+  <body>
+    <h1>All SCIM-Provisioned Users</h1>
+    <ul>
+      <% if (users.length === 0) { %>
+      <li>No users in this directory yet.</li>
+      <% } else { %> <% users.forEach(u => { %>
+      <li>
+        <strong><%= u.first_name %> <%= u.last_name %></strong>
+        — <%= u.email %> <% if (u.id) { %> (<code><%= u.id %></code>) <% } %>
+      </li>
+      <% }) %> <% } %>
+    </ul>
+    <p><a href="/">← back home</a></p>
+  </body>
+</html>
