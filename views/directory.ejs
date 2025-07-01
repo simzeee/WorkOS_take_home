@@ -2,19 +2,38 @@
 <html>
   <head>
     <title>Directory Users</title>
+    <link rel="stylesheet" href="/public/stylesheets/directory_style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter"
+    />
   </head>
   <body>
-    <h1>All SCIM-Provisioned Users</h1>
-    <ul>
-      <% if (users.length === 0) { %>
-      <li>No users in this directory yet.</li>
-      <% } else { %> <% users.forEach(u => { %>
-      <li>
-        <strong><%= u.first_name %> <%= u.last_name %></strong>
-        — <%= u.email %> <% if (u.id) { %> (<code><%= u.id %></code>) <% } %>
-      </li>
-      <% }) %> <% } %>
-    </ul>
-    <p><a href="/">← back home</a></p>
+    <h1 class="page-title">All SCIM-Provisioned Users</h1>
+
+    <!-- views/directory.ejs -->
+    <div class="users-grid">
+      <% users.forEach(u => { %>
+      <div class="user-card">
+        <% if (u.photoUrl) { %>
+        <img
+          class="user-avatar"
+          src="<%= u.photoUrl %>"
+          alt="<%= u.first_name %> <%= u.last_name %>"
+        />
+        <% } else { %>
+        <div class="user-avatar">
+          <%= u.first_name.charAt(0) %><%= u.last_name.charAt(0) %>
+        </div>
+        <% } %>
+        <h2 class="user-name"><%= u.first_name %> <%= u.last_name %></h2>
+        <a href="mailto:<%= u.email %>" class="user-email"> <%= u.email %> </a>
+      </div>
+      <% }) %>
+    </div>
+
+    <p class="back-home">
+      <a href="/">← back home</a>
+    </p>
   </body>
 </html>

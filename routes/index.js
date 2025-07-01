@@ -10,20 +10,6 @@ const organizationID = process.env.ORGANIZATION_ID;
 const redirectURI = "http://localhost:8000/callback";
 const state = "";
 
-// // Fetch all Directory Users in a Directory
-// const usersFromDirectory = await workos.directorySync.listUsers({
-//   directory: process.env.DIRECTORY_ID,
-// });
-
-// // Fetch all Directory Users in a Directory Group
-// const usersByGroup = await workos.directorySync.listUsers({
-//   group: "directory_group_01JZ156DN2FZ64A9DNJVEGZ5Y8",
-// });
-
-// console.log("here", usersFromDirectory.data);
-
-// console.log(usersByGroup.data);
-
 app.use(
   session({
     secret: "keyboard cat",
@@ -35,9 +21,11 @@ app.use(
 
 router.get("/", function (req, res) {
   if (session.isloggedin) {
+    console.log("SESSION HERE", session);
     res.render("login_successful.ejs", {
       profile: session.profile,
       first_name: session.first_name,
+      last_name: session.last_name,
     });
   } else {
     res.render("index.ejs", { title: "Home" });
@@ -45,19 +33,19 @@ router.get("/", function (req, res) {
 });
 
 router.get("/directory", async (req, res, next) => {
-    try {
+  try {
     // fetch *all* users in the directory
     const { data: users } = await workos.directorySync.listUsers({
       directory: process.env.DIRECTORY_ID,
     });
 
     // render a view called "directory.ejs" and pass the users array
-    console.log("users", users)
+    console.log("users", users);
     res.render("directory.ejs", { users });
   } catch (error) {
     next(error);
   }
-})
+});
 
 router.post("/login", (req, res) => {
   const login_type = req.body.login_method;
@@ -100,8 +88,7 @@ router.get("/callback", async (req, res) => {
       const json_profile = JSON.stringify(profile, null, 4);
 
       const checkID = "org_01JZ0V6JQEKWNRMGJF2F52704G";
-      console.log(checkID, profile.profile);
-      //   console.log(json_profile);
+
       if (profile.profile.organization_id !== checkID) {
         return res.status(401).send({
           message: "Unauthorized",
@@ -109,6 +96,7 @@ router.get("/callback", async (req, res) => {
       }
 
       session.first_name = profile.profile.first_name;
+      session.last_name = profile.profile.last_name;
       session.profile = json_profile;
       session.isloggedin = true;
     }

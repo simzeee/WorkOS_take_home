@@ -30,28 +30,29 @@
         <a href="https://workos.com/" target="_blank">
           <button class="button button-outline">WorkOS</button>
         </a>
+        <a href="/logout">
+          <button class="button button-outline">Log Out</button>
+        </a>
       </div>
     </div>
     <div class="flex">
       <div class="logged_in_div_right">
         <div class="flex_column">
-          <div class="flex width-941px space-between">
-            <a href="/directory">See all directory users</a>
-
-            <div>
-              <p>Profile Details</p>
-            </div>
-            <div>
-              <a href="/logout">
-                <button class="button button-outline">Log Out</button>
-              </a>
-            </div>
+          <div class="flex width-941px justify-center profile-actions">
+            <a href="/directory">
+              <button class="button button-outline">
+                See All Directory Users
+              </button>
+            </a>
           </div>
           <div>
-            <pre id="noborder" class="prettyprint noborder">
-                            <%= profile %>
-                        </pre
-            >
+            <div class="profile-card">
+              <!-- initials fallback -->
+              <div class="profile-avatar">
+                <%= first_name.charAt(0) %><%= last_name.charAt(0) %>
+              </div>
+              <h2 class="profile-name"><%= first_name %> <%= last_name %></h2>
+            </div>
           </div>
         </div>
       </div>
