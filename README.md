@@ -101,14 +101,14 @@ I emailed the .mov files to the team! But, here are some .gifs of the same thing
 
 #### Successful Login
 
-- ![Successful Login](./recordings/login_test_successful.gif)
+![Successful Login](./recordings/login_test_successful.gif)
 
 #### Unsuccessful Login (outside Okta Tenant)
 
-- ![Unsuccessful Login outside of Okta Tenant](./recordings/login_test_not_assigned.gif)
+![Unsuccessful Login outside of Okta Tenant](./recordings/login_test_not_assigned.gif)
 
 #### Any Google Account works
 
-- ![Any Google Account Works](./recordings/login_successful_any_google_account_works.gif)
+![Any Google Account Works](./recordings/login_successful_any_google_account_works.gif)
 
 #### Please let me know if you have any questions!!
