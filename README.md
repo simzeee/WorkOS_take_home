@@ -112,3 +112,10 @@ I emailed the .mov files to the team! But, here are some .gifs of the same thing
 ![Any Google Account Works](./recordings/login_successful_any_google_account_works.gif)
 
 #### Please let me know if you have any questions!!
+
+---
+
+## Contact
+
+- 📧 **Email:** [johnsims.dev@gmail.com](mailto:johnsims.dev@gmail.com)  
+- 🔗 **LinkedIn:** [John Sims](https://www.linkedin.com/in/jwsims/)  
