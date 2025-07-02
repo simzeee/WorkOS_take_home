@@ -24,7 +24,7 @@ A minimal Node.js/Express app demonstrating:
 
 ```bash
 git clone https://github.com/simzeee/WorkOS_take_home
-cd workos-sso-directory-demo
+cd WorkOS_take_home
 npm install
 ```
 
