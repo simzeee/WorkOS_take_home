@@ -50,5 +50,12 @@ npm run start
 
 ### Screen Recordings
 
+I emailed the .mov files to the team! But, here are some .gifs of the same thing.
+
+#### Successful Login
+
 - ![Successful Login](./recordings/login_test_successful.gif)
+
+#### Unsuccessful Login (outside Okta Tenant)
+
 - ![Unsuccessful Login outside of Okta Tenant](./recordings/login_test_not_assigned.gif)
