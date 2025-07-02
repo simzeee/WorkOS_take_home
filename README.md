@@ -7,7 +7,7 @@ A Node.js/Express application demonstrating how to:
 
 ---
 
-## 🛠️ Prerequisites
+## Prerequisites
 
 - **Node.js** v14+ and **npm** (or **yarn**)  
 - A free [Okta Developer](https://developer.okta.com/signup/) tenant  
@@ -19,7 +19,7 @@ A Node.js/Express application demonstrating how to:
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone & install
 
@@ -27,4 +27,14 @@ A Node.js/Express application demonstrating how to:
 git clone https://github.com/your-org/workos-sso-directory-demo.git
 cd workos-sso-directory-demo
 npm install
+```
+
+### 2. Add .env
+
+- Add a .env file in your root directory and copy over the variables and values sent in the email (Alexander or Betsy should have them!)
+
+### 3. Run the app
+
+```bash
+npm run start
 ```
