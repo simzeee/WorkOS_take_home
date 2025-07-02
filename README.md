@@ -1,9 +1,13 @@
 # WorkOS SSO & Directory Demo
 
-A Node.js/Express application demonstrating how to:
+A minimal Node.js/Express app demonstrating:
 
-1. Authenticate users via **Okta SAML**, **Google OAuth** and **Microsoft OAuth** using [WorkOS SSO](https://workos.com/docs/sso).
-2. Fetch and display a list of SCIM-provisioned users from an Okta directory using [WorkOS Directory Sync](https://workos.com/docs/directory-sync).
+1. **WorkOS SSO**
+   - Okta SAML
+   - Google OAuth
+   - Microsoft OAuth
+2. **WorkOS Directory Sync**
+   - Fetching & displaying SCIM-provisioned users from Okta
 
 ---
 
@@ -14,7 +18,7 @@ A Node.js/Express application demonstrating how to:
 
 ---
 
-## Getting Started
+## Setup & Run
 
 ### 1. Clone & install
 
@@ -48,6 +52,42 @@ NODE_ENV=development
 npm run start
 ```
 
+The app will be at http://localhost:8000
+
+## 🔑 Testing the Flows
+
+### 1. Enterprise SAML (Okta)
+
+- On the home page, click **Enterprise SAML**
+- Sign in with an Okta user **assigned** to the SAML app
+- You’ll land on the success page showing your first & last name (see screen recording below for working example)
+- Note: the user would have to ask me to add them to my Okta org and assign them to this app, so this won't work!
+
+### 2. Google OAuth
+
+- Click **Google OAuth**
+- Authenticate with **any** Google account
+- You’ll land on the same success page
+
+### 3. Microsoft OAuth
+
+- Click **Microsoft OAuth**
+- Authenticate with **any** Microsoft account
+- You’ll land on the same success page
+
+### 4. Directory Users
+
+- From the success page, click **See All Directory Users**
+- You’ll see a centered grid of cards, each showing:
+
+  - A circular avatar (photo or initials)
+  - First & last name
+  - Email address
+
+- You'll see it matches this list from the WorkOS Directory:
+
+![Directory Sync](./public/images/directory_sync.png)
+
 ### Screen Recordings
 
 I emailed the .mov files to the team! But, here are some .gifs of the same thing.
@@ -59,3 +99,5 @@ I emailed the .mov files to the team! But, here are some .gifs of the same thing
 #### Unsuccessful Login (outside Okta Tenant)
 
 - ![Unsuccessful Login outside of Okta Tenant](./recordings/login_test_not_assigned.gif)
+
+#### Please let me know if you have any questions!
