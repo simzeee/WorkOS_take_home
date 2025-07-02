@@ -58,6 +58,11 @@ The app will be at http://localhost:8000
 
 ## Testing the Flows
 
+#### Summary
+
+- In this app you will be logging into the app via Google/Microsoft and clicking the "See All Directory Users" link to see a list of users associated with the WorkOS directory
+- You will NOT be able to login with an Okta username/password
+
 ### 1. Enterprise SAML (Okta)
 
 - On the home page, click **Enterprise SAML**
