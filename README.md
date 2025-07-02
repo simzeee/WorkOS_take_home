@@ -50,5 +50,5 @@ npm run start
 
 ### Screen Recordings
 
-- [Successful Login](./recordings/login_test_successful.mov)  
-- [Unsuccessful Login outside of Okta Tenant](./recordings/login_test_not_assigned.mov)  
+- ![Successful Login](./recordings/login_test_successful.gif)
+- ![Unsuccessful Login outside of Okta Tenant](./recordings/login_test_not_assigned.gif)
