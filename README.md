@@ -80,7 +80,7 @@ The app will be at http://localhost:8000
 - From the success page, click **See All Directory Users**
 - You’ll see a centered grid of cards, each showing:
 
-  - A circular avatar (photo or initials)
+  - A circular avatar (with initials)
   - First & last name
   - Email address
 
