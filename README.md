@@ -56,7 +56,7 @@ npm run start
 
 The app will be at http://localhost:8000
 
-## 🔑 Testing the Flows
+## Testing the Flows
 
 ### 1. Enterprise SAML (Okta)
 
