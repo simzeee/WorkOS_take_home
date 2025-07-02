@@ -9,12 +9,7 @@ A Node.js/Express application demonstrating how to:
 
 ## Prerequisites
 
-- **Node.js** v14+ and **npm** (or **yarn**)  
-- A free [Okta Developer](https://developer.okta.com/signup/) tenant  
-  - An **Enterprise SAML** app configured and assigned to at least one test user  
-- A [WorkOS](https://workos.com/) account with:
-  - An **SSO Connection** for Okta (SAML), Google OAuth & Microsoft OAuth  
-  - A **Directory** that’s SCIM-provisioned from your Okta org  
+- **Node.js** v14+ and **npm**
 - **Git** (to clone the repo)
 
 ---
@@ -31,10 +26,29 @@ npm install
 
 ### 2. Add .env
 
-- Add a .env file in your root directory and copy over the variables and values sent in the email (Alexander or Betsy should have them!)
+- Add a .env file in the root directory and copy over the variables and values sent in the email (Alexander or Betsy should have them!)
+
+These are the required variables:
+
+# example .env
+
+```bash
+WORKOS_CLIENT_ID=your-workos-client-id
+WORKOS_API_KEY=sk_test_…
+ORGANIZATION_ID=org_…
+DIRECTORY_ID=directory_…
+SESSION_SECRET=some-long-random-string
+REDIRECT_URI=http://localhost:8000/callback
+NODE_ENV=development
+```
 
 ### 3. Run the app
 
 ```bash
 npm run start
 ```
+
+### Screen Recordings
+
+- [Successful Login](./recordings/login_test_successful.mov)  
+- [Unsuccessful Login outside of Okta Tenant](./recordings/login_test_not_assigned.mov)  
