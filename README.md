@@ -36,6 +36,8 @@ These are the required variables:
 
 # example .env
 
+Note: THESE WILL NOT WORK AND ARE PLACEHOLDER VALUES
+
 ```bash
 WORKOS_CLIENT_ID=your-workos-client-id
 WORKOS_API_KEY=sk_test_…
