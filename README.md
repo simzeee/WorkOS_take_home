@@ -23,7 +23,7 @@ A minimal Node.js/Express app demonstrating:
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/your-org/workos-sso-directory-demo.git
+git clone https://github.com/simzeee/WorkOS_take_home
 cd workos-sso-directory-demo
 npm install
 ```
