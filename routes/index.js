@@ -1,22 +1,19 @@
 import express from "express";
 import { WorkOS } from "@workos-inc/node";
-import dotenv from "dotenv";
-dotenv.config();
 
-const { WORKOS_API_KEY, WORKOS_CLIENT_ID, ORGANIZATION_ID } = process.env;
+const { WORKOS_API_KEY, WORKOS_CLIENT_ID, ORGANIZATION_ID, REDIRECT_URI } =
+  process.env;
 
 const workos = new WorkOS(WORKOS_API_KEY);
 
 const router = express.Router();
-
-const redirectURI = "http://localhost:8000/callback";
 
 router.post("/login", async (req, res, next) => {
   const method = req.body.login_method;
 
   const params = {
     clientID: WORKOS_CLIENT_ID,
-    redirectURI: redirectURI,
+    redirectURI: REDIRECT_URI,
   };
 
   if (method === "saml") params.organization = ORGANIZATION_ID;
@@ -25,7 +22,6 @@ router.post("/login", async (req, res, next) => {
   try {
     const url = workos.sso.getAuthorizationURL(params);
     res.redirect(url);
-    
   } catch (e) {
     next(e);
   }
@@ -75,7 +71,12 @@ router.get("/", function (req, res, next) {
   }
 });
 
-router.get("/directory", async (req, res, next) => {
+function ensureLoggedIn(req, res, next) {
+  if (req.session.isLoggedIn) return next();
+  res.redirect("/");
+}
+
+router.get("/directory", ensureLoggedIn, async (req, res, next) => {
   try {
     // fetch *all* users in the directory
     const { data: users } = await workos.directorySync.listUsers({
@@ -89,7 +90,7 @@ router.get("/directory", async (req, res, next) => {
   }
 });
 
-router.get("/logout", async (req, res, next) => {
+router.get("/logout", (req, res, next) => {
   req.session.destroy((err) => {
     if (err) return next(err);
     res.redirect("/");
