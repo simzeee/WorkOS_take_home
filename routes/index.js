@@ -20,6 +20,7 @@ router.post("/login", async (req, res, next) => {
   else params.provider = method;
 
   try {
+    console.log("in login route", params);
     const url = workos.sso.getAuthorizationURL(params);
     res.redirect(url);
   } catch (e) {
