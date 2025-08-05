@@ -12,7 +12,7 @@ router.post("/login", async (req, res, next) => {
   const email = req.body.email?.toLowerCase();
   const method = req.body.login_method;
 
-  console.log("in login route", email, method);
+  // console.log("in login route", email, method);
 
   const params = {
     clientID: WORKOS_CLIENT_ID,
@@ -30,7 +30,7 @@ router.post("/login", async (req, res, next) => {
   }
 
   try {
-    console.log("in login route", params);
+    // console.log("in login route", params);
     const url = workos.sso.getAuthorizationURL(params);
     res.redirect(url);
   } catch (e) {
