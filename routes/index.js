@@ -1,7 +1,7 @@
 import express from "express";
 import { WorkOS } from "@workos-inc/node";
 
-const { WORKOS_API_KEY, WORKOS_CLIENT_ID, ORGANIZATION_ID, REDIRECT_URI } =
+const { WORKOS_API_KEY, WORKOS_CLIENT_ID, ORGANIZATION_ID, REDIRECT_URI, ENTRA_ORGANIZATION_ID } =
   process.env;
 
 const workos = new WorkOS(WORKOS_API_KEY);
@@ -9,15 +9,25 @@ const workos = new WorkOS(WORKOS_API_KEY);
 const router = express.Router();
 
 router.post("/login", async (req, res, next) => {
+  const email = req.body.email?.toLowerCase();
   const method = req.body.login_method;
+
+  console.log("in login route", email, method);
 
   const params = {
     clientID: WORKOS_CLIENT_ID,
     redirectURI: REDIRECT_URI,
   };
 
-  if (method === "saml") params.organization = ORGANIZATION_ID;
-  else params.provider = method;
+  if (email?.endsWith("@workos.com")) {
+    params.organization = ORGANIZATION_ID; // org_xxx for Okta
+  } else if (email?.endsWith("@workos781.onmicrosoft.com")) {
+    params.organization = ENTRA_ORGANIZATION_ID; // org_xxx for Entra
+  } else {
+    return res
+      .status(400)
+      .render("error.ejs", { error: "Unsupported domain for SSO login." });
+  }
 
   try {
     console.log("in login route", params);
@@ -40,7 +50,7 @@ router.get("/callback", async (req, res, next) => {
     });
 
     if (
-      profile.organization_id &&
+      profile.organization_id !== ENTRA_ORGANIZATION_ID &&
       profile.organization_id !== ORGANIZATION_ID
     ) {
       return res
