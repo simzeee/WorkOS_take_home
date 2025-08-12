@@ -8,14 +8,45 @@ const workos = new WorkOS(WORKOS_API_KEY);
 
 const router = express.Router();
 
+const INTERVAL_MS = 30000; // 30 seconds
+let cursor = undefined;
+
+const pollEvents = async () => {
+
+  const response = await workos.events.listEvents({
+    events: [
+      'dsync.activated',
+      'dsync.deleted',
+      'dsync.group.created',
+      'dsync.group.deleted',
+      'dsync.group.updated',
+      'dsync.group.user_added',
+      'dsync.group.user_removed',
+      'dsync.user.created',
+      'dsync.user.deleted',
+      'dsync.user.updated',
+    ],
+    limit: 100,
+    after: cursor
+  });
+
+  if (response.listMetadata && response.listMetadata.after) {
+    cursor = response.listMetadata.after;
+  }
+
+  // console.log("EVENTS DATA HERE", response.data)
+}
+
+setInterval(pollEvents, INTERVAL_MS);
+
 router.post("/login", async (req, res, next) => {
   const email = req.body.email?.toLowerCase();
   const method = req.body.login_method;
 
-  // console.log("in login route", email, method);
+  console.log("in login route", email, method);
 
   const params = {
-    clientID: WORKOS_CLIENT_ID,
+    clientId: WORKOS_CLIENT_ID,
     redirectURI: REDIRECT_URI,
   };
 
@@ -31,7 +62,7 @@ router.post("/login", async (req, res, next) => {
 
   try {
     // console.log("in login route", params);
-    const url = workos.sso.getAuthorizationURL(params);
+    const url = workos.sso.getAuthorizationUrl(params);
     res.redirect(url);
   } catch (e) {
     next(e);
@@ -40,18 +71,20 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/callback", async (req, res, next) => {
   const { code, error } = req.query;
+  console.log(code, "code here")
 
   if (error) return res.status(400).render("error.ejs", { error });
 
   try {
     const { profile } = await workos.sso.getProfileAndToken({
       code,
-      clientID: WORKOS_CLIENT_ID,
+      clientId: WORKOS_CLIENT_ID,
     });
+    console.log("profile", profile);
 
     if (
-      profile.organization_id !== ENTRA_ORGANIZATION_ID &&
-      profile.organization_id !== ORGANIZATION_ID
+      profile.organizationId !== ENTRA_ORGANIZATION_ID &&
+      profile.organizationId !== ORGANIZATION_ID
     ) {
       return res
         .status(401)
@@ -59,8 +92,8 @@ router.get("/callback", async (req, res, next) => {
     }
 
     req.session.user = {
-      firstName: profile.first_name,
-      lastName: profile.last_name,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
       email: profile.email,
     };
     req.session.isLoggedIn = true;
@@ -93,6 +126,10 @@ router.get("/directory", ensureLoggedIn, async (req, res, next) => {
     const { data: users } = await workos.directorySync.listUsers({
       directory: process.env.DIRECTORY_ID,
     });
+    // const { data: entra_users } = await workos.directorySync.listUsers({
+    //   directory: process.env.ENTRA_DIRECTORY_ID,
+    // });
+    // console.log("users", entra_users);
 
     // render a view called "directory.ejs" and pass the users array
     res.render("directory.ejs", { users });
