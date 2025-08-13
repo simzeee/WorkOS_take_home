@@ -1,62 +1,100 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="../public/stylesheets/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Inter"
-    />
-  </head>
 
-  <body class="container_success">
-    <div class="logged_in_nav">
-      <div class="flex">
-        <div>
-          <img
-            src="../public/images/workos-logo-with-text.png"
-            alt="workos logo"
-          />
-        </div>
-      </div>
-      <div class="flex">
-        <a href="https://workos.com/docs" target="_blank">
-          <button class="button nav-item">Documentation</button>
-        </a>
-        <a href="https://workos.com/docs/reference" target="_blank">
-          <button class="button nav-item">API Reference</button>
-        </a>
-        <a href="https://workos.com/blog" target="_blank">
-          <button class="button nav-item blog-nav-button">Blog</button>
-        </a>
-        <a href="https://workos.com/" target="_blank">
-          <button class="button button-outline">WorkOS</button>
-        </a>
-        <a href="/logout">
-          <button class="button button-outline">Log Out</button>
-        </a>
+<head>
+  <link rel="stylesheet" href="../public/stylesheets/style.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter" />
+  <style>
+    .achievements-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      /* stack on smaller screens */
+      margin: 24px auto 0;
+      max-width: 941px;
+    }
+
+    .achievements-row .card {
+      flex: 1 1 300px;
+      text-align: center;
+    }
+
+    .achievements-row h1 {
+      margin-bottom: 8px;
+    }
+
+    .achievements-row img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body class="container_success">
+  <div class="logged_in_nav">
+    <div class="flex">
+      <div>
+        <img src="../public/images/workos-logo-with-text.png" alt="workos logo" />
       </div>
     </div>
     <div class="flex">
-      <div class="logged_in_div_right">
-        <div class="flex_column">
-          <div class="flex width-941px justify-center profile-actions">
-            <a href="/directory">
-              <button class="button button-outline">
-                See All Directory Users
-              </button>
-            </a>
-          </div>
-          <div>
-            <div class="profile-card">
-              <!-- initials fallback -->
-              <div class="profile-avatar">
-                <%= first_name.charAt(0) %><%= last_name.charAt(0) %>
-              </div>
-              <h2 class="profile-name"><%= first_name %> <%= last_name %></h2>
-            </div>
-          </div>
-        </div>
-      </div>
+      <a href="https://workos.com/docs" target="_blank">
+        <button class="button nav-item">Documentation</button>
+      </a>
+      <a href="https://workos.com/docs/reference" target="_blank">
+        <button class="button nav-item">API Reference</button>
+      </a>
+      <a href="https://workos.com/blog" target="_blank">
+        <button class="button nav-item blog-nav-button">Blog</button>
+      </a>
+      <a href="https://workos.com/" target="_blank">
+        <button class="button button-outline">WorkOS</button>
+      </a>
+      <a href="/logout">
+        <button class="button button-outline">Log Out</button>
+      </a>
     </div>
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-  </body>
+  </div>
+
+  <!-- Directory Users Button -->
+  <div class="flex" style="margin-top: 30px;">
+  <a href="/directory">
+    <button class="button button-outline">See All Directory Users</button>
+  </a>
+</div>
+
+  <!-- Achievements side by side -->
+  <div class="achievements-row">
+    <% if (can_fly) { %>
+      <div class="card">
+        <h1>YOU CAN FLY</h1>
+        <img src="https://y.yarn.co/38681280-5c7f-42a2-8fa0-c301d37cafd7_text.gif" alt="You can fly" />
+      </div>
+      <% } %>
+
+        <% if (engineer) { %>
+          <div class="card">
+            <h1>YOU ARE AN ENGINEER</h1>
+            <img src="https://media1.tenor.com/m/rY95EqesaaoAAAAC/bob-the-builder.gif" alt="Engineer" />
+          </div>
+          <% } %>
+  </div>
+
+  <!-- Profile -->
+  <div class="profile-card">
+    <div class="profile-avatar">
+      <%= first_name.charAt(0) %>
+        <%= last_name.charAt(0) %>
+    </div>
+    <h2 class="profile-name">
+      <%= first_name %>
+        <%= last_name %>
+    </h2>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</body>
+
 </html>

@@ -8,7 +8,7 @@ const workos = new WorkOS(WORKOS_API_KEY);
 
 const router = express.Router();
 
-const INTERVAL_MS = 30000; // 30 seconds
+const INTERVAL_MS = 10000; // 30 seconds
 let cursor = undefined;
 
 const pollEvents = async () => {
@@ -34,7 +34,8 @@ const pollEvents = async () => {
     cursor = response.listMetadata.after;
   }
 
-  // console.log("EVENTS DATA HERE", response.data)
+  // console.log("EVENTS DATA HERE", response.data[response.data.length - 1])
+  // console.log("CUSTOM", response.data.forEach((user) => console.log(user.data, user.data.customAttributes)))
 }
 
 setInterval(pollEvents, INTERVAL_MS);
@@ -71,7 +72,7 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/callback", async (req, res, next) => {
   const { code, error } = req.query;
-  console.log(code, "code here")
+  // console.log(code, "code here")
 
   if (error) return res.status(400).render("error.ejs", { error });
 
@@ -98,17 +99,36 @@ router.get("/callback", async (req, res, next) => {
     };
     req.session.isLoggedIn = true;
 
+
     res.redirect("/");
   } catch (e) {
     next(e);
   }
 });
 
-router.get("/", function (req, res, next) {
+router.get("/", async function (req, res, next) {
+
   if (req.session.isLoggedIn) {
+
+
+    const { data: users } = await workos.directorySync.listUsers({
+      directory: process.env.DIRECTORY_ID,
+    });
+    const currentUserDirectoryId = users.find((user) => user.email === req.session.user.email)?.id;
+    // console.log("directoryUsers", currentUserDirectoryId);
+
+    const directoryUser = await workos.directorySync.getUser(currentUserDirectoryId)
+    console.log("directoryUser", directoryUser);
+    console.log("canFly", directoryUser.customAttributes.canFly);
+    const directoryGroup = await workos.directorySync.getGroup(directoryUser.groups[0].id);
+    console.log("directoryGroup", directoryGroup);
+    
+
     res.render("login_successful.ejs", {
       first_name: req.session.user.firstName,
       last_name: req.session.user.lastName,
+      can_fly: directoryUser.customAttributes.canFly,
+      engineer: directoryGroup.name.includes("Engineer")
     });
   } else {
     res.render("index.ejs");
@@ -130,6 +150,8 @@ router.get("/directory", ensureLoggedIn, async (req, res, next) => {
     //   directory: process.env.ENTRA_DIRECTORY_ID,
     // });
     // console.log("users", entra_users);
+
+    // directoryUsers.data.filter((user)=> user.)
 
     // render a view called "directory.ejs" and pass the users array
     res.render("directory.ejs", { users });
